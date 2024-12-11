@@ -75,6 +75,9 @@ Host $SSH_HOST
   StrictHostKeyChecking no
 EOT
     chmod 400 ~/.ssh/proxy_jump ~/.ssh/config
+    ls -la ~/.ssh/
+    cat ~/.ssh/config
+    ssh $SSH_HOST pwd
 fi
 
 if [ -z "$INPUT_JUMP_HOST" ]; then
