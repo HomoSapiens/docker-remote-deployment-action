@@ -58,11 +58,30 @@ chmod 600 ~/.ssh/id_rsa.pub
 #chmod 600 "~/.ssh"
 eval $(ssh-agent)
 ssh-add ~/.ssh/id_rsa
+if [ -n "$INPUT_JUMP_HOST" ]; then
+    echo "Configure proxy-jump host"
+    printf '%s\n' "$INPUT_JUMP_PRIVATE_KEY" > ~/.ssh/proxy_jump
+    cat <<EOT >> ~/.ssh/config
+Host proxy-jump
+  Hostname $INPUT_JUMP_HOST
+  Port $INPUT_JUMP_PORT
+  User $INPUT_JUMP_USER
+  IdentityFile ~/.ssh/proxy_jump
+  StrictHostKeyChecking no
 
+Host $SSH_HOST
+  Hostname $SSH_HOST
+  ProxyJump proxy-jump
+  StrictHostKeyChecking no
+EOT
+    chmod 400 ~/.ssh/proxy_jump ~/.ssh/config
+fi
 
-echo "Add known hosts"
-ssh-keyscan -p $INPUT_SSH_PORT "$SSH_HOST" >> ~/.ssh/known_hosts
-ssh-keyscan -p $INPUT_SSH_PORT "$SSH_HOST" >> /etc/ssh/ssh_known_hosts
+if [ -z "$INPUT_JUMP_HOST" ];
+    echo "Add known hosts"
+    ssh-keyscan -p $INPUT_SSH_PORT "$SSH_HOST" >> ~/.ssh/known_hosts
+    ssh-keyscan -p $INPUT_SSH_PORT "$SSH_HOST" >> /etc/ssh/ssh_known_hosts
+fi
 # set context
 #echo "Create docker context"
 #docker context create staging --docker "host=ssh://$INPUT_REMOTE_DOCKER_HOST:$INPUT_SSH_PORT"

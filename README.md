@@ -67,6 +67,22 @@ The password for the container repository user.
 
 The docker container registry to authenticate against
 
+### `jump_host`
+
+Host used for proxy jump
+
+### `jump_port`
+
+Port used for proxy jump
+
+### `jump_private_key`
+
+Private key used for proxy jump
+
+### `jump_user`
+
+User used for proxy jump
+
 ## License
 
 This project is licensed under the MIT license. See the [LICENSE](LICENSE) file for details.

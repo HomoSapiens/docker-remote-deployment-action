@@ -29,6 +29,19 @@ inputs:
   docker_login_registry:
     description: The docker login registry
     required: false
+  jump_host:
+    description: Host used for proxy jump
+    required: false
+  jump_port:
+    description: Port used for proxy jump
+    required: false
+    default: "22"
+  jump_private_key:
+    description: Private key used for proxy jump
+    required: false
+  jump_user:
+    description: User used for proxy jump
+    required: false
 
 runs:
   using: docker
