@@ -77,7 +77,7 @@ EOT
     chmod 400 ~/.ssh/proxy_jump ~/.ssh/config
 fi
 
-if [ -z "$INPUT_JUMP_HOST" ];
+if [ -z "$INPUT_JUMP_HOST" ]; then
     echo "Add known hosts"
     ssh-keyscan -p $INPUT_SSH_PORT "$SSH_HOST" >> ~/.ssh/known_hosts
     ssh-keyscan -p $INPUT_SSH_PORT "$SSH_HOST" >> /etc/ssh/ssh_known_hosts
